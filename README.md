@@ -1,3 +1,3 @@
-# hash32
+# hashish
 
-Utility functions for base32 hases. Thie is *NOT* meant to generate secure hashes.
+Utility functions for hases and id's. Thie is *NOT* meant to generate secure hashes.
