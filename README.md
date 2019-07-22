@@ -1,3 +1,3 @@
 # hashish
 
-Utility functions for hases and id's. Thie is *NOT* meant to generate secure hashes.
+Utility functions for hashes and id's. Thie is *NOT* meant to generate secure hashes.
