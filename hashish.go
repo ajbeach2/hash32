@@ -6,12 +6,38 @@ import (
 	"encoding/base64"
 	"encoding/binary"
 	"github.com/google/uuid"
+	"math/rand"
+	"os"
 	"strconv"
 	"strings"
 )
 
 var base32NoPaddingEncoder = base32.StdEncoding.WithPadding(base32.NoPadding)
 var base64NoPaddingURLEncoder = base64.URLEncoding.WithPadding(base64.NoPadding)
+var lookupTable [256]uint8
+
+func init() {
+	seedInput := os.Getenv("SEED")
+
+	var seed int64 = 1017 // brick squad seed
+	var err error
+
+	if seedInput != "" {
+		seed, err = strconv.ParseInt(seedInput, 10, 64)
+		if err != nil {
+			panic(err)
+		}
+	}
+
+	for i := 0; i < 256; i++ {
+		lookupTable[i] = uint8(i)
+	}
+
+	rand.Seed(seed)
+	rand.Shuffle(len(lookupTable), func(i, j int) {
+		lookupTable[i], lookupTable[j] = lookupTable[j], lookupTable[i]
+	})
+}
 
 // Hash32 does an md5 hash of the input, and encodes to base32
 func Hash32(input string) string {
@@ -85,4 +111,13 @@ func UUIDTo64(input string) (string, error) {
 	}
 
 	return ToBase64(bin), nil
+}
+
+func Pearson(input string) uint8 {
+	origin := []byte(input)
+	h := uint8(0)
+	for _, v := range origin {
+		h = lookupTable[h^uint8(v)]
+	}
+	return h
 }
