@@ -13,6 +13,11 @@ func TestUUIDTo32(t *testing.T) {
 	t.Log(id)
 }
 
+func TestPearson(t *testing.T) {
+	id := Pearson("myin3333put")
+	t.Log(id)
+}
+
 func TestUUIDTo64(t *testing.T) {
 	id, err := UUIDTo64(uuid.New().String())
 	if err != nil {
